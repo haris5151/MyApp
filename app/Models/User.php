@@ -19,8 +19,11 @@ class User extends Authenticatable
      */
    
      protected $fillable = [
-        'cd_country_id',
-        'cd_city_id',
+        // 'cd_country_id',
+        // 'cd_city_id',
+        'country',
+        'city',
+        'image',
         'user_name',
         'phone_number',
         'is_active',
