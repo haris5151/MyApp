@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
 
             $table->string('name');
+            $table->string('sortname');
             $table->boolean('is_active')->default(1);
             $table->string('description')->nullable();
-            $table->string('country_code')->unique();
             
             $table->foreignId('created_by')->constrained('users');
             $table->foreignId('updated_by')->constrained('users');

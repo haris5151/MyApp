@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cd_companies', function (Blueprint $table) {
+        Schema::create('cd_states', function (Blueprint $table) {
             $table->id();
-            
-            $table->string('name'); 
-            $table->string('address')->nullable();
+
+            $table->foreignId('cd_country_id')->nullable()->constrained('cd_countries');
+
+            $table->string('name');
             $table->boolean('is_active')->default(1);
             $table->text('description')->nullable();
 
@@ -31,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cd_companies');
+        Schema::dropIfExists('cd_states');
     }
 };

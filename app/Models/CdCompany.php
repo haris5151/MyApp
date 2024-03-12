@@ -10,7 +10,6 @@ class CdCompany extends Model
     use HasFactory;
     protected $fillable = [
     'name',
-    'location',
     'address',
     'is_active',
     'description',

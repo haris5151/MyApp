@@ -5,10 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
 {
@@ -16,35 +14,34 @@ class LoginController extends Controller
     // This function handles the login request
     public function login(Request $request)
     {
-        
-        $validator = Validator::make($request->all(),[
-            'email' => ['required_without:phone_number','email'],
-            'phone_number' => ['required_without:email','string'],
-            'password' => ['required','string'],
+
+        $validator = Validator::make($request->all(), [
+            'email' => ['required_without:phone_number', 'email'],
+            'phone_number' => ['required_without:email', 'string'],
+            'password' => ['required', 'string'],
         ]);
-        if($validator->fails()){
-            return response()->json(['errors'=>$validator->errors()],400);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 400);
         }
         $data = $validator->validated();
 
         // dd($request->only('phone_number','password'));
 
+        if (isset($data['email']) && isset($data['phone_number'])) {
+            return response()->json(['errors' => ['Only one login method is required with email or phone number!']], 400);
+        }
 
-        if(isset($data['email']) && isset($data['phone_number'])){
-            return response()->json(['errors'=>['Only one login method is required with email or phone number!']],400);
-        } 
-    
         if (Auth::attempt($data)) {
             $user = Auth::user();
 
-            $token=$user->createToken('token')->plainTextToken;
+            $token = $user->createToken('token')->plainTextToken;
 
             return response()->json([
                 'success' => true,
                 'message' => 'User login successful.',
                 'token' => $token,
                 'user' => $user,
-            ],200);
+            ], 200);
         } else {
             return response()->json(['message' => 'Invalid login credentials'], 401);
         }
@@ -60,6 +57,20 @@ class LoginController extends Controller
     // }
 
     // private
+    public function logout(Request $request) {
+
+        Auth::logout();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'User logged out successfully.',
+        ], 200);
+
+    }
+
+
+       
+    
 }
 
 // public function login(Request $request)

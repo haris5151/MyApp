@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('cd_cities', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('cd_country_id')->nullable()->constrained('cd_countries');
+            $table->foreignId('cd_state_id')->nullable()->constrained('cd_states');
 
             $table->string('name');
             $table->boolean('is_active')->default(1);

@@ -9,7 +9,7 @@ class CdCity extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'cd_country_id',
+        'state_id',
         'name',
         'is_active',
         'description',
@@ -18,11 +18,11 @@ class CdCity extends Model
     ];
     public function users()
     {
-        return $this->hasMany(User::class, 'cd_city_id');
+        return $this->hasMany(User::class, 'city_id');
     }
-    public function cd_countries()
+    public function cd_states()
     {
-        return $this->belongsTo(CdCountry::class, 'cd_country_id');
+        return $this->belongsTo(CdState::class, 'state_id');
     }
 
 }
