@@ -28,6 +28,7 @@ Route::post('/logout', [LoginController::class, 'logout']);
 Route::get('/fetch-country',[DropdownController::class,'fetchCountry']);
 Route::get('/fetch-state',[DropdownController::class,'fetchState']);
 Route::get('/fetch-city',[DropdownController::class,'fetchCity']);
+
 Route::get('/index-company',[CompanyController::class,'index']);
 Route::post('/create-company',[CompanyController::class,'createCompany']);
 Route::get('/show-company/{id}',[CompanyController::class,'show']);
