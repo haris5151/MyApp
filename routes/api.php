@@ -35,7 +35,12 @@ Route::post('/create-company',[CompanyController::class,'createCompany']);
 Route::get('/show-company/{id}',[CompanyController::class,'show']);
 Route::put('/update-company/{id}',[CompanyController::class,'update']);
 
+Route::get('/index-branch',[BranchController::class,'index']);
 Route::post('/create-branch',[BranchController::class,'createBranch']);
+Route::get('/show-branch/{id}',[BranchController::class,'show']);
+Route::put('/update-branch/{id}',[BranchController::class,'update']);
+
+
 
 
 
