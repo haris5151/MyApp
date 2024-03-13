@@ -1,6 +1,7 @@
 <?php
 use App\Http\Controllers\Api\RegisterController;
 use App\Http\Controllers\Api\LoginController;
+use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DropdownController;
 use Illuminate\Http\Request;
@@ -33,6 +34,9 @@ Route::get('/index-company',[CompanyController::class,'index']);
 Route::post('/create-company',[CompanyController::class,'createCompany']);
 Route::get('/show-company/{id}',[CompanyController::class,'show']);
 Route::put('/update-company/{id}',[CompanyController::class,'update']);
+
+Route::post('/create-branch',[BranchController::class,'createBranch']);
+
 
 
 

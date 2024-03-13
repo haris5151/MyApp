@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class CdBranch extends Model
 {
     use HasFactory;
-    protected $fiilable=[
-    'cd_company_id',
+    protected $fillable=[ 
     'name',
+    'cd_company_id',
     'location',
     'address',
     'is_active',

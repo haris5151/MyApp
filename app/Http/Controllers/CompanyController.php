@@ -57,10 +57,9 @@ class CompanyController extends Controller
             'name' => $request->input('name'),
             'address' => $request->input('address'),
             'description' => $request->input('description'),
-            'activity' => $request->input('is_active'),
+            'is_active' => $request->input('is_active'),
             
-            
-
+        
         ]);
 
         $CdCompany->save();
@@ -106,7 +105,7 @@ class CompanyController extends Controller
         $CdCompany->name = $request->input('name');
         $CdCompany->address = $request->input('address');
         $CdCompany->description = $request->input('description');
-        // $CdCompany->is_active = $request->input('activity');
+        $CdCompany->is_active = $request->input('is_active');
 
         $CdCompany->save();
 
