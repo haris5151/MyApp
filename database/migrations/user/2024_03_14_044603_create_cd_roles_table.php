@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cd_states', function (Blueprint $table) {
+        Schema::create('cd_roles', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('cd_country_id')->nullable()->constrained('cd_countries');
-
             $table->string('name');
+            $table->string('role_type');
             $table->boolean('is_active')->default(1);
             $table->text('description')->nullable();
 
@@ -32,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cd_states');
+        Schema::dropIfExists('cd_roles');
     }
 };

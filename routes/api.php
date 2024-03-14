@@ -4,6 +4,9 @@ use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DropdownController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\RoleController;
+use App\Models\MdProduct;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Laravel\Sanctum\Sanctum;
@@ -26,9 +29,11 @@ Route::post('/login' ,[LoginController::class, 'login']);
 Route::post('/register',[RegisterController::class, 'register']);
 Route::post('/logout', [LoginController::class, 'logout']);
 
-Route::get('/fetch-country',[DropdownController::class,'fetchCountry']);
-Route::get('/fetch-state',[DropdownController::class,'fetchState']);
-Route::get('/fetch-city',[DropdownController::class,'fetchCity']);
+// Route::get('/fetch-country',[DropdownController::class,'fetchCountry']);
+// Route::get('/fetch-state',[DropdownController::class,'fetchState']);
+// Route::get('/fetch-city',[DropdownController::class,'fetchCity']);
+Route::get('fetch-country', [DropdownController::class, 'fetchCountry']);
+Route::get('fetch-city/{country}', [DropdownController::class, 'fetchCity']);
 
 Route::get('/index-company',[CompanyController::class,'index']);
 Route::post('/create-company',[CompanyController::class,'createCompany']);
@@ -39,6 +44,16 @@ Route::get('/index-branch',[BranchController::class,'index']);
 Route::post('/create-branch',[BranchController::class,'createBranch']);
 Route::get('/show-branch/{id}',[BranchController::class,'show']);
 Route::put('/update-branch/{id}',[BranchController::class,'update']);
+
+Route::get('/index-role',[RoleController::class,'index']);
+Route::post('/create-role',[RoleController::class,'createRole']);
+Route::get('/show-role/{id}',[RoleController::class,'show']);
+Route::put('/update-role/{id}',[RoleController::class,'update']);
+
+Route::get('/index-product',[ProductController::class,'index']);
+Route::post('/create-product',[ProductController::class,'createProduct']);
+Route::get('/show-product/{id}',[ProductController::class,'show']);
+Route::put('/update-product/{id}',[ProductController::class,'update']);
 
 
 

@@ -19,7 +19,7 @@ return new class extends Migration
 
 
             $table->string('name');
-            $table->double('rate');
+            $table->double('price');
             $table->double('image')->nullable();
             $table->boolean('is_active')->default(1);
             $table->text('description')->nullable();

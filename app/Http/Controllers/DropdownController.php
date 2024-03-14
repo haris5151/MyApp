@@ -3,32 +3,22 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\CdCountry;
-use App\Models\CdState;
-use App\Models\CdCity;
+// use App\Models\CdCountry;
+use App\Models\City;
 
 class DropdownController extends Controller
 {
+
+    // public function index()
+    // {
+    //     $data =  CdCountry::all();
+    //     return response()->json($data);
+    // }
     public function fetchCountry(){
-        $data['cd_countries']=CdCountry::get(['name','id']);
-        return response()->json($data);
-
+        return City::groupBy("country")->select("country")->get()->pluck("country");
     }
-    public function fetchState(Request $request){
-
-       
-        $cd_country_id = $request->input('cd_country_id');
-        $data['cd_states'] = CdState::where('cd_country_id', $cd_country_id)->get(['name','id']);
-        return response()->json($data);
-       
-
-    }
-    public function fetchCity(Request $request){
-        
-        $cd_state_id = $request->input('cd_state_id');
-        $data['cd_cities']=CdCity::where('cd_state_id', $cd_state_id)->get(['name','id']);
-        return response()->json($data);
-       
-
+    
+    public function fetchCity($country){
+        return City::where("country",$country)->select("city")->get()->pluck("city");
     }
 }

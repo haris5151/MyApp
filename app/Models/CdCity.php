@@ -16,13 +16,13 @@ class CdCity extends Model
         'created_by',
         'updated_by',
     ];
-    public function users()
-    {
-        return $this->hasMany(User::class, 'city_id');
-    }
-    public function cd_states()
-    {
-        return $this->belongsTo(CdState::class, 'state_id');
-    }
+    // public function users()
+    // {
+    //     return $this->hasMany(User::class, 'city_id');
+    // }
+    // public function cd_states()
+    // {
+    //     return $this->belongsTo(CdState::class, 'state_id');
+    // }
 
 }

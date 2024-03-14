@@ -13,7 +13,7 @@ class MdProduct extends Model
         'cd_company_id',
         'cd_branch_id',
         'name',
-        'rate',
+        'price',
         'image',
         'is_active',
         'description',

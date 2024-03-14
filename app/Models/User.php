@@ -18,11 +18,11 @@ class User extends Authenticatable
      * @var array<int, string>
      */
         protected $fillable = [
-            // 'cd_country_id',
-            // 'cd_state_id',
-            // 'cd_city_id',
+           
             'user_name',
             'image',
+            'country',
+            'city',
             'phone_number',
             'is_active',
             'description',
@@ -59,16 +59,17 @@ class User extends Authenticatable
     {
         return $this->hasMany(MdSize::class, 'user_id');
     }
-    public function cd_countries()
+    // public function cd_countries()
+    // {
+    //     return $this->belongsTo(CdCountry::class, 'country_id');
+    // }
+    // public function cd_cities()
+    // {
+    //     return $this->belongsTo(CdCity::class, 'city_id');
+    // }
+    public function cd_roles()
     {
-        return $this->belongsTo(CdCountry::class, 'country_id');
+        return $this->belongsTo(CdRole::class, 'Cd_role_id');
     }
-    public function cd_cities()
-    {
-        return $this->belongsTo(CdCity::class, 'city_id');
-    }
-    public function cd_states()
-    {
-        return $this->belongsTo(CdState::class, 'state_id');
-    }
+    
 }

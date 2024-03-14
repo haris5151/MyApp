@@ -11,6 +11,8 @@ class CdCompany extends Model
     protected $fillable = [
     'name',
     'address',
+    'country',
+    'city',
     'is_active',
     'description',
     'created_by',

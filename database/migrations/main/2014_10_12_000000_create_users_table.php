@@ -17,15 +17,17 @@ return new class extends Migration
             // $table->foreignId('cd_country_id')->nullable()->constrained('cd_countries');
             // $table->foreignId('cd_state_id')->nullable()->constrained('cd_states');
             // $table->foreignId('cd_city_id')->nullable()->constrained('cd_cities');
+            $table->foreignId('cd_role_id')->nullable()->constrained('cd_roles');
             
             $table->string('user_name');
+            $table->string('country');
+            $table->string('city');
             $table->string('image')->nullable();
             $table->string('phone_number')->unique()->nullable();
             $table->boolean('is_active')->default(1);
             $table->text('description')->nullable();
             $table->string('email')->unique();
             $table->enum('gender', ['male', 'female', 'other'])->nullable();
-            $table->string('location')->nullable(); 
             $table->string('address')->nullable();
             $table->string('password');
             $table->timestamp('email_verified_at')->nullable();

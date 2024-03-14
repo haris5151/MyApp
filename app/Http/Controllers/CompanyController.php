@@ -58,6 +58,8 @@ class CompanyController extends Controller
             'address' => $request->input('address'),
             'description' => $request->input('description'),
             'is_active' => $request->input('is_active'),
+            'country'=>$request->input('country'),
+            'city'=>$request->input('city'),
             
         
         ]);
