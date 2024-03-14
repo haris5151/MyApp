@@ -13,7 +13,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $roles = MdProduct::all();
+        return response()->json($roles);
     }
 
     /**
