@@ -46,9 +46,17 @@ class RegisterController extends Controller
             'country'=>$request->country,
             'city'=>$request->city,
             'address'=>$request->address,
-            'image'=>$request->image
+
 
         ]);
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $destinationPath = public_path('image/user_img/');
+            $imageName = date('YmdHis') . '.' . $image->getClientOriginalExtension();
+            $image->move($destinationPath, $imageName);
+            $user->image = $imageName;
+        }
 
         $token=$user->createToken('token')->plainTextToken;
 
