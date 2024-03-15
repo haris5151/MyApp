@@ -108,6 +108,9 @@ class CompanyController extends Controller
         $CdCompany->address = $request->input('address');
         $CdCompany->description = $request->input('description');
         $CdCompany->is_active = $request->input('is_active');
+        $CdCompany->country=$request->input('country');
+        $CdCompany->city=$request->input('city');
+
 
         $CdCompany->save();
 
