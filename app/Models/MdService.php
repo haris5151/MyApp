@@ -13,6 +13,7 @@ class MdService extends Model
         'name',
         'description',
         'price',
+        'is_active',
         'created_by',
         'updated_by',
     ];

@@ -19,10 +19,7 @@ class CdBranch extends Model
     'updated_by',
 
     ];
-    public function md_products()
-    {
-        return $this->hasMany(MdProduct::class, 'cd_branch_id');
-    }
+   
     public function td_orders()
     {
         return $this->hasMany(TdOrder::class, 'cd_branch_id');

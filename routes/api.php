@@ -6,6 +6,7 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DropdownController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\ServiceController;
 use App\Models\MdProduct;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -53,7 +54,13 @@ Route::put('/update-role/{id}',[RoleController::class,'update']);
 Route::get('/index-product',[ProductController::class,'index']);
 Route::post('/create-product',[ProductController::class,'createProduct']);
 Route::get('/show-product/{id}',[ProductController::class,'show']);
-Route::put('/update-product/{id}',[ProductController::class,'update']);
+Route::post('/update-product/{id}',[ProductController::class,'update']);
+
+Route::post('/create-service',[ServiceController::class, 'createService']);
+Route::get('/index-service',[ServiceController::class, 'index']);
+Route::get('/show-service/{id}',[ServiceController::class, 'show']);
+Route::put('/update-service/{id}',[ServiceController::class, 'update']);
+
 
 
 

@@ -38,6 +38,8 @@ class ProductController extends Controller
                     'price' => $request->input('price'),
                     'description' => $request->input('description'),
                     'is_active' => $request->input('is_active'),
+                    'cd_company_id' => $request->input('cd_company_id'),
+
                 ]);
                 
                 if ($request->hasFile('image')) {
@@ -101,6 +103,8 @@ class ProductController extends Controller
         $MdProduct->price=$request->input('price');
         $MdProduct->description = $request->input('description');
         $MdProduct->is_active = $request->input('is_active');
+        $MdProduct->cd_company_id = $request->input('cd_company_id');
+
 
         if ($request->hasFile('image')) {
             $image = $request->file('image');

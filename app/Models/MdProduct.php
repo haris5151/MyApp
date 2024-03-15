@@ -11,7 +11,6 @@ class MdProduct extends Model
 
     protected $fillable = [
         'cd_company_id',
-        'cd_branch_id',
         'name',
         'price',
         'image',
@@ -24,8 +23,5 @@ class MdProduct extends Model
     {
         return $this->belongsTo(CdCompany::class, 'cd_company_id');
     }
-    public function cd_branches()
-    {
-        return $this->belongsTo(CdBranch::class, 'cd_branch_id');
-    }
+    
 }
