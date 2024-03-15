@@ -56,6 +56,8 @@ class RegisterController extends Controller
             $imageName = date('YmdHis') . '.' . $image->getClientOriginalExtension();
             $image->move($destinationPath, $imageName);
             $user->image = $imageName;
+            
+            $user->save();
         }
 
         $token=$user->createToken('token')->plainTextToken;

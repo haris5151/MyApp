@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('user_name');
             $table->string('country');
             $table->string('city');
-            $table->string('image')->nullable();
+            $table->string('image');
             $table->string('phone_number')->unique()->nullable();
             $table->boolean('is_active')->default(1);
             $table->text('description')->nullable();
