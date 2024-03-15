@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
 {
+    public function index()
+    {
+        $get_user=user::all();
+        return response()->json($get_user);
+    }
 
     // This function handles the login request
     public function login(Request $request)

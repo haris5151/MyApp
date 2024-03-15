@@ -27,6 +27,7 @@ use Laravel\Sanctum\Sanctum;
 //     return $request->user();
 // });
 Route::post('/login' ,[LoginController::class, 'login']);
+Route::get('/get-user' ,[LoginController::class, 'index']);
 Route::post('/register',[RegisterController::class, 'register']);
 Route::post('/logout', [LoginController::class, 'logout']);
 
