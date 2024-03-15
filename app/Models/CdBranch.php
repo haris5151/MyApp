@@ -11,7 +11,8 @@ class CdBranch extends Model
     protected $fillable=[ 
     'name',
     'cd_company_id',
-    'location',
+    'country',
+    'city',
     'address',
     'is_active',
     'description',

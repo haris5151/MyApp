@@ -41,6 +41,8 @@ class BranchController extends Controller
             'address' => $request->input('address'),
             'description' => $request->input('description'),
             'is_active' => $request->input('is_active'),
+            'country' => $request->input('country'),
+            'city' => $request->input('city'),
             'cd_company_id' => $request->input('cd_company_id'),
 
         ]);
@@ -96,6 +98,8 @@ class BranchController extends Controller
         $CdBranch->address = $request->input('address');
         $CdBranch->description = $request->input('description');
         $CdBranch->is_active = $request->input('is_active');
+        $CdBranch->country = $request->input('country');
+        $CdBranch->city = $request->input('city');
         $CdBranch->cd_company_id = $request->input('cd_company_id');
 
         $CdBranch->save();
