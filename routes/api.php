@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DropdownController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ServiceController;
@@ -30,6 +31,8 @@ Route::post('/login' ,[LoginController::class, 'login']);
 Route::get('/get-user' ,[LoginController::class, 'index']);
 Route::post('/register',[RegisterController::class, 'register']);
 Route::post('/logout', [LoginController::class, 'logout']);
+Route::get('/last-seen', function () {
+})->middleware('last.seen');
 
 // Route::get('/fetch-country',[DropdownController::class,'fetchCountry']);
 // Route::get('/fetch-state',[DropdownController::class,'fetchState']);
@@ -61,6 +64,11 @@ Route::post('/create-service',[ServiceController::class, 'createService']);
 Route::get('/index-service',[ServiceController::class, 'index']);
 Route::get('/show-service/{id}',[ServiceController::class, 'show']);
 Route::put('/update-service/{id}',[ServiceController::class, 'update']);
+
+Route::post('/create-order',[OrderController::class, 'createOrder']);
+Route::get('/index-order',[OrderController::class, 'index']);
+Route::get('/show-order/{id}',[OrderController::class, 'show']);
+Route::post('/update-order/{id}',[OrderController::class, 'update']);
 
 
 

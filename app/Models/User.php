@@ -31,6 +31,7 @@ class User extends Authenticatable
             'location',
             'address',
             'password',
+            'last_seen',
             'email_verified_at',
             'created_by',
             'updated_by',
