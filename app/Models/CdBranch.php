@@ -25,6 +25,10 @@ class CdBranch extends Model
     {
         return $this->hasMany(TdOrder::class, 'cd_branch_id');
     }
+    public function md_services()
+    {
+        return $this->hasMany(MdService::class, 'cd_branch_id');
+    }
     public function td_order_details()
     {
         return $this->hasMany(TdOrderDetail::class, 'cd_branch_id');

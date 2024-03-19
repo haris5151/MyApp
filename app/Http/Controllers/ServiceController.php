@@ -39,6 +39,8 @@ class ServiceController extends Controller
             'description'=>$request->input('description'),
             'is_active'=>$request->input('is_active'),
             'cd_company_id' => $request->input('cd_company_id'),
+            'cd_branch_id' => $request->input('cd_branch_id'),
+
 
         ]);
 
@@ -94,6 +96,8 @@ class ServiceController extends Controller
         $MdService->description=$request->input('description');
         $MdService->is_active=$request->input('is_active');
         $MdService->cd_company_id = $request->input('cd_company_id');
+        $MdService->cd_branch_id = $request->input('cd_branch_id');
+
 
         $MdService->save();
 

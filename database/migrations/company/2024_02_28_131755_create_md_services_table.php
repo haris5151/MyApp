@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('cd_company_id')->nullable()->constrained('cd_companies');
+            $table->foreignId('cd_branch_id')->nullable()->constrained('cd_branches');
 
             $table->string('name'); 
             $table->text('description')->nullable();
