@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use Carbon\Carbon;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,13 +22,13 @@ class UpdateLastSeen
         if (!Auth::check()) {
             return $next($request);
         }
-      
+        
         $user = Auth::user();
-
-        $user->save([
-            'last_seen' => new \DateTime(),
-        ]);
-
+    
+        // Update last_seen timestamp to current time using Carbon
+        $user->last_seen =Carbon::now();
+        $user->save();
+    
         return $next($request);
     }
 }
