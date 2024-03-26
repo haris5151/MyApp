@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Spatie\Permission\Models\Role;
+
 class RegisterController extends Controller
 
 {
@@ -50,6 +52,17 @@ class RegisterController extends Controller
 
 
         ]);
+
+        $role = Role::where('name', $request->role)->first();
+        if ($role) {
+            $user->assignRole($role);
+        } else {
+         
+            return response()->json([
+                'success' => false,
+                'message' => 'Selected role is invalid'
+            ]);
+        }
 
         if ($request->hasFile('image')) {
             $image = $request->file('image');

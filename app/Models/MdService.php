@@ -18,6 +18,10 @@ class MdService extends Model
         'created_by',
         'updated_by',
     ];
+    public function mdservice()
+    {
+        return $this->hasMany(MdService::class);
+    }
     public function cd_companies()
     {
         return $this->belongsTo(CdCompany::class, 'cd_company_id');

@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DropdownController;
+use App\Http\Controllers\MdServiceDetailController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
@@ -69,6 +70,13 @@ Route::post('/create-order',[OrderController::class, 'createOrder']);
 Route::get('/index-order',[OrderController::class, 'index']);
 Route::get('/show-order/{id}',[OrderController::class, 'show']);
 Route::post('/update-order/{id}',[OrderController::class, 'update']);
+
+Route::post('/create-servicedetails',[MdServiceDetailController::class, 'createServiceDetails']);
+Route::post('/update-servicedetails/{id}',[MdServiceDetailController::class, 'updateServiceDetails']);
+Route::get('/index-servicedetail',[MdServiceDetailController::class, 'index']);
+Route::get('/show-servicedetail/{id}',[MdServiceDetailController::class, 'show']);
+
+
 
 
 
