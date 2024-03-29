@@ -1,6 +1,7 @@
 <?php
 use App\Http\Controllers\Api\RegisterController;
 use App\Http\Controllers\Api\LoginController;
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DropdownController;
@@ -9,6 +10,8 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\SocialController;
+use App\Models\CdAppointment;
 use App\Models\MdProduct;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -75,6 +78,14 @@ Route::post('/create-servicedetails',[MdServiceDetailController::class, 'createS
 Route::post('/update-servicedetails/{id}',[MdServiceDetailController::class, 'updateServiceDetails']);
 Route::get('/index-servicedetail',[MdServiceDetailController::class, 'index']);
 Route::get('/show-servicedetail/{id}',[MdServiceDetailController::class, 'show']);
+
+Route::post('/create-appointment',[AppointmentController::class, 'createAppointment']);
+
+
+
+// login with google
+Route::get('/google/redctire', [SocialController::class, 'redirectToGoogle'])->name('google.redirect');
+Route::get('/google/callback', [SocialController::class, 'handleGoogleCallback'])->name('google.callback');
 
 
 

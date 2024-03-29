@@ -11,33 +11,33 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable ,HasRoles;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
-        protected $fillable = [
-           
-            'user_name',
-            'image',
-            'country',
-            'city',
-            'phone_number',
-            'role',
-            'is_active',
-            'description',
-            'email',
-            'gender',
-            'location',
-            'address',
-            'password',
-            'last_seen',
-            'email_verified_at',
-            'created_by',
-            'updated_by',
-        ];
+    protected $fillable = [
+
+        'user_name',
+        'image',
+        'country',
+        'city',
+        'phone_number',
+        'role',
+        'is_active',
+        'description',
+        'email',
+        'gender',
+        'location',
+        'address',
+        'password',
+        'last_seen',
+        'email_verified_at',
+        'created_by',
+        'updated_by',
+    ];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -74,5 +74,19 @@ class User extends Authenticatable
     {
         return $this->belongsTo(CdRole::class, 'Cd_role_id');
     }
-    
+
+    public function services()
+    {
+        return $this->hasMany(CdAppointment::class, 'service_id');
+    }
+
+    public function appointments()
+    {
+        return $this->hasMany(CdAppointment::class, 'customer_id');
+    }
+    public function socialmedia()
+    {
+        return $this->hasOne(CdSocialMedia::class);
+    }
+
 }
