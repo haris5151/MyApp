@@ -3,36 +3,32 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Hash;
 use App\Models\User;
-use Spatie\Permission\Models\Role;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
-
 {
 
-
-    public function register(Request $request) 
-
+    public function register(Request $request)
     {
 
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
 
             'user_name' => 'required',
             'phone_number' => 'required|min:11|numeric',
-            'email'=> 'required|email|unique:users,email',
+            'email' => 'required|email|unique:users,email',
             'password' => 'required|min:8|confirmed',
 
         ]);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
 
             return response()->json([
 
                 'success' => false,
-                'message' => $validator->errors()->first()
+                'message' => $validator->errors()->first(),
 
             ]);
 
@@ -40,29 +36,18 @@ class RegisterController extends Controller
 
         $user = User::create([
 
-            'user_name'     => $request->user_name,
-            'phone_number'=>$request->phone_number,
-            'email'    => $request->email,
+            'user_name' => $request->user_name,
+            'phone_number' => $request->phone_number,
+            'email' => $request->email,
             'password' => Hash::make($request->password),
-            'gender'=>$request->gender,
-            'country'=>$request->country,
-            'city'=>$request->city,
-            'address'=>$request->address,
-            
-
+            'gender' => $request->gender,
+            'country' => $request->country,
+            'city' => $request->city,
+            'address' => $request->address,
+            'type' => $request->type,
+            'description' => $request->description,
 
         ]);
-
-        $role = Role::where('name', $request->role)->first();
-        if ($role) {
-            $user->assignRole($role);
-        } else {
-         
-            return response()->json([
-                'success' => false,
-                'message' => 'Selected role is invalid'
-            ]);
-        }
 
         if ($request->hasFile('image')) {
             $image = $request->file('image');
@@ -74,17 +59,71 @@ class RegisterController extends Controller
             $user->save();
         }
 
-        $token=$user->createToken('token')->plainTextToken;
+        $token = $user->createToken('token')->plainTextToken;
 
         return response()->json([
 
             'success' => true,
             'message' => 'User register successfully',
-            'token' =>$token,
+            'token' => $token,
 
         ]);
 
     }
-    
+    public function update(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|exists:users,id',
+            'user_name' => 'required',
+            'phone_number' => 'required|min:11|numeric',
+            'email' => 'required|email|unique:users,email,' . $request->user_id,
+            'password' => 'required|min:8|confirmed',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => $validator->errors()->first(),
+            ]);
+        }
+
+        $user = User::find($request->user_id);
+        if (!$user) {
+            return response()->json([
+                'success' => false,
+                'message' => 'User not found',
+            ]);
+        }
+
+        $user->update([
+            'user_name' => $request->user_name,
+            'phone_number' => $request->phone_number,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'gender' => $request->gender,
+            'country' => $request->country,
+            'city' => $request->city,
+            'address' => $request->address,
+            'type' => $request->type,
+            'description' => $request->description,
+        ]);
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $destinationPath = public_path('image/user_img/');
+            $imageName = date('YmdHis') . '.' . $image->getClientOriginalExtension();
+            $image->move($destinationPath, $imageName);
+            $user->image = $imageName;
+            $user->save();
+        }
+
+        $token = $user->createToken('token')->plainTextToken;
+
+        return response()->json([
+            'success' => true,
+            'message' => 'User updated successfully',
+            'token' => $token,
+        ]);
+    }
 
 }

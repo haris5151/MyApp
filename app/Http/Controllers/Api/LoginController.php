@@ -56,15 +56,7 @@ class LoginController extends Controller
 
     }
 
-    // private function login_via_email($data){
-    //     Auth::attempt($data);
-    // }
-    // private function login_via_phone_number($data){
-    //     Auth::attempt($data);
-    //     // Auth::attempt($request->only('phone_number','password'));
-    // }
-
-    // private
+    
     public function logout(Request $request) {
 
         Auth::logout();
@@ -75,6 +67,15 @@ class LoginController extends Controller
         ], 200);
 
     }
+    // private function login_via_email($data){
+    //     Auth::attempt($data);
+    // }
+    // private function login_via_phone_number($data){
+    //     Auth::attempt($data);
+    //     // Auth::attempt($request->only('phone_number','password'));
+    // }
+
+    // private
 
 
        

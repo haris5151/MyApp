@@ -25,7 +25,7 @@ class SocialController extends Controller
         if(!$user)
         {
             $user = User::create([
-                'name' => $googleUser->name, 
+                'user_name' => $googleUser->user_name, 
                 'email' => $googleUser->email,
                 'password' =>Hash::make(rand(100000,999999))]);
         }

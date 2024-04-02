@@ -37,6 +37,10 @@ Route::post('/register',[RegisterController::class, 'register']);
 Route::post('/logout', [LoginController::class, 'logout']);
 Route::get('/last-seen', function () {
 })->middleware('last.seen');
+// update user
+Route::post('/update-user-registeration/{id}',[RegisterController::class, 'update']);
+
+
 
 // Route::get('/fetch-country',[DropdownController::class,'fetchCountry']);
 // Route::get('/fetch-state',[DropdownController::class,'fetchState']);
@@ -86,6 +90,14 @@ Route::post('/create-appointment',[AppointmentController::class, 'createAppointm
 // login with google
 Route::get('/google/redctire', [SocialController::class, 'redirectToGoogle'])->name('google.redirect');
 Route::get('/google/callback', [SocialController::class, 'handleGoogleCallback'])->name('google.callback');
+
+ // Vendor routes
+Route::middleware('vendor')->group(function () {  
+});
+// Customer routes
+Route::middleware('customer')->group(function () {
+   
+});
 
 
 
