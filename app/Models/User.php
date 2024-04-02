@@ -25,7 +25,7 @@ class User extends Authenticatable
         'country',
         'city',
         'phone_number',
-        'role',
+        'type',
         'is_active',
         'description',
         'email',
