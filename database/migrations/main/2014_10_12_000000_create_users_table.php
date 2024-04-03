@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('city');
             $table->string('image');
             $table->string('phone_number')->unique()->nullable();
-            $table->enum('type', ['vendor', 'customer', 'admin'])->default('customer');
+            $table->enum('type', ['vendor', 'customer'])->default('customer');
             $table->boolean('is_active')->default(1);
             $table->text('description')->nullable();
             $table->string('email')->unique();

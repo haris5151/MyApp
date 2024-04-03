@@ -46,6 +46,7 @@ class RegisterController extends Controller
             'address' => $request->address,
             'type' => $request->type,
             'description' => $request->description,
+            'is_active'=>$request->is_active,
 
         ]);
 
@@ -77,7 +78,7 @@ class RegisterController extends Controller
             'user_name' => 'required',
             'phone_number' => 'required|min:11|numeric',
             'email' => 'required|email|unique:users,email,' . $request->user_id,
-            'password' => 'required|min:8|confirmed',
+            // 'password' => 'required|min:8|confirmed',
         ]);
 
         if ($validator->fails()) {
@@ -99,13 +100,14 @@ class RegisterController extends Controller
             'user_name' => $request->user_name,
             'phone_number' => $request->phone_number,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
+            // 'password' => Hash::make($request->password),
             'gender' => $request->gender,
             'country' => $request->country,
             'city' => $request->city,
             'address' => $request->address,
             'type' => $request->type,
             'description' => $request->description,
+            'is_active'=>$request->is_active
         ]);
 
         if ($request->hasFile('image')) {

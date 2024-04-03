@@ -20,7 +20,7 @@ class LoginController extends Controller
     // This function handles the login request
     public function login(Request $request)
     {
-
+    //    dd($request);
         $validator = Validator::make($request->all(), [
             'email' => ['required_without:phone_number', 'email'],
             'phone_number' => ['required_without:email', 'string'],
@@ -43,7 +43,7 @@ class LoginController extends Controller
             $user->save();
 
             $token = $user->createToken('token')->plainTextToken;
-
+            // dd($token);
             return response()->json([
                 'success' => true,
                 'message' => 'User login successful.',
