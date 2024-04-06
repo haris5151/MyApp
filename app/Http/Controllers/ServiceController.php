@@ -68,6 +68,12 @@ class ServiceController extends Controller
         return response()->json($services);
     }
 
+    public function showBranch($cd_branch_id)
+    {
+        $services = MdService::where('cd_branch_id', $cd_branch_id)->get();
+        return response()->json($services);
+    }
+
     /**
      * Show the form for editing the specified resource.
      */

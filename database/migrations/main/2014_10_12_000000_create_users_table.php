@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Validation\Rules\Unique;
 
 return new class extends Migration
 {
@@ -24,6 +25,7 @@ return new class extends Migration
             $table->string('city');
             $table->string('image');
             $table->string('phone_number')->unique()->nullable();
+            $table->string('facebook_id')->nullable()->unique();
             $table->enum('type', ['vendor', 'customer'])->default('customer');
             $table->boolean('is_active')->default(1);
             $table->text('description')->nullable();

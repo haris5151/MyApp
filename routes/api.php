@@ -66,6 +66,9 @@ Route::post('/update-product/{id}', [ProductController::class, 'update']);
 Route::post('/create-service',[ServiceController::class, 'createService']);
 Route::get('/index-service',[ServiceController::class, 'index']);
 Route::get('/show-service/{id}',[ServiceController::class, 'show']);
+// get services related to specific branch
+Route::get('/show-branch/{id}',[ServiceController::class, 'showBranch']);
+
 Route::put('/update-service/{id}',[ServiceController::class, 'update']);
 
 Route::post('/create-order', [OrderController::class, 'createOrder']);
@@ -83,6 +86,20 @@ Route::post('/create-appointment', [AppointmentController::class, 'createAppoint
 // login with google
 Route::get('/google/redctire', [SocialController::class, 'redirectToGoogle'])->name('google.redirect');
 Route::get('/google/callback', [SocialController::class, 'handleGoogleCallback'])->name('google.callback');
+
+// facebook login
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified'
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return response()->json();
+    })->name('dashboard');
+});
+//
+Route::get('/auth/facebook', [SocialController::class, 'redirectToFacebook'])->name('auth.facebook');
+Route::get('/auth/facebook/callback', [SocialController::class, 'handleFacebookCallback']);
 
 // Vendor routes
 // Route::middleware('vendor')->group(function () {

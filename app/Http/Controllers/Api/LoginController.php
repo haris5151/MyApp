@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Sanctum\HasApiTokens;
 
+
+
 class LoginController extends Controller
 {
     public function index()
@@ -67,6 +69,8 @@ class LoginController extends Controller
         ], 200);
 
     }
+
+    
     // private function login_via_email($data){
     //     Auth::attempt($data);
     // }
