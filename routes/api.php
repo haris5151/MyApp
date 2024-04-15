@@ -69,6 +69,9 @@ Route::get('/show-service/{id}',[ServiceController::class, 'show']);
 // get services related to specific branch
 Route::get('/show-branch_service/{id}',[ServiceController::class, 'showBranch']);
 
+Route::get('/show-service_details/{id}',[MdServiceDetailController::class, 'showServiceDetails']);
+
+
 Route::put('/update-service/{id}',[ServiceController::class, 'update']);
 
 Route::post('/create-order', [OrderController::class, 'createOrder']);

@@ -61,6 +61,21 @@ class MdServiceDetailController extends Controller
         $servicedetail=MdServiceDetail::find($id);
         return response()->json($servicedetail);
     }
+
+
+
+    
+    // show details through service id
+    public function showServiceDetails($md_service_id)
+    {
+        $services = MdServiceDetail::where('md_service_id', $md_service_id)->get();
+        return response()->json($services);
+    }
+
+
+
+
+
     public function updateServiceDetails(Request $request,string $id){
         {
             $validator=validator::make($request->all(),[
