@@ -10,9 +10,9 @@ use Illuminate\Http\Request;
 class MdServiceDetailController extends Controller
 {
 
-    public function __construct(){
-        $this->middleware(['auth:sanctum','vendor']);
-    }
+    // public function __construct(){
+    //     $this->middleware(['auth:sanctum','vendor']);
+    // }
     public function index()
     {
         $servicedetails=MdServiceDetail::all();

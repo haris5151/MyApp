@@ -14,9 +14,9 @@ use Illuminate\Http\Request;
 class SocialController extends Controller
 {
 
-    public function __construct(){
-        $this->middleware(['customer']);
-    }
+    // public function __construct(){
+    //     $this->middleware(['customer']);
+    // }
     public function redirectToGoogle()
     {
         return Socialite::driver('google')->redirect();

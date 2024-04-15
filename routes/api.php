@@ -43,43 +43,43 @@ Route::post('/update-user-registeration/{id}', [RegisterController::class, 'upda
 Route::get('fetch-country', [DropdownController::class, 'fetchCountry']);
 Route::get('fetch-city/{country}', [DropdownController::class, 'fetchCity']);
 
-// Route::get('/index-company', [CompanyController::class, 'index']);
-// Route::post('/create-company', [CompanyController::class, 'createCompany']);
-// Route::get('/show-company/{id}', [CompanyController::class, 'show']);
-// Route::put('/update-company/{id}', [CompanyController::class, 'update']);
+Route::get('/index-company', [CompanyController::class, 'index']);
+Route::post('/create-company', [CompanyController::class, 'createCompany']);
+Route::get('/show-company/{id}', [CompanyController::class, 'show']);
+Route::put('/update-company/{id}', [CompanyController::class, 'update']);
 
-// Route::get('/index-branch', [BranchController::class, 'index']);
-// Route::post('/create-branch', [BranchController::class, 'createBranch']);
-// Route::get('/show-branch/{id}', [BranchController::class, 'show']);
-// Route::put('/update-branch/{id}', [BranchController::class, 'update']);
+Route::get('/index-branch', [BranchController::class, 'index']);
+Route::post('/create-branch', [BranchController::class, 'createBranch']);
+Route::get('/show-branch/{id}', [BranchController::class, 'show']);
+Route::put('/update-branch/{id}', [BranchController::class, 'update']);
 
 // Route::get('/index-role', [RoleController::class, 'index']);
 // Route::post('/create-role', [RoleController::class, 'createRole']);
 // Route::get('/show-role/{id}', [RoleController::class, 'show']);
 // Route::put('/update-role/{id}', [RoleController::class, 'update']);
 
-// Route::get('/index-product', [ProductController::class, 'index']);
-// Route::post('/create-product', [ProductController::class, 'createProduct']);
-// Route::get('/show-product/{id}', [ProductController::class, 'show']);
-// Route::post('/update-product/{id}', [ProductController::class, 'update']);
+Route::get('/index-product', [ProductController::class, 'index']);
+Route::post('/create-product', [ProductController::class, 'createProduct']);
+Route::get('/show-product/{id}', [ProductController::class, 'show']);
+Route::post('/update-product/{id}', [ProductController::class, 'update']);
 
-// Route::post('/create-service',[ServiceController::class, 'createService']);
-// Route::get('/index-service',[ServiceController::class, 'index']);
-// Route::get('/show-service/{id}',[ServiceController::class, 'show']);
+Route::post('/create-service',[ServiceController::class, 'createService']);
+Route::get('/index-service',[ServiceController::class, 'index']);
+Route::get('/show-service/{id}',[ServiceController::class, 'show']);
 // get services related to specific branch
 Route::get('/show-branch_service/{id}',[ServiceController::class, 'showBranch']);
 
-// Route::put('/update-service/{id}',[ServiceController::class, 'update']);
+Route::put('/update-service/{id}',[ServiceController::class, 'update']);
 
-// Route::post('/create-order', [OrderController::class, 'createOrder']);
-// Route::get('/index-order', [OrderController::class, 'index']);
-// Route::get('/show-order/{id}', [OrderController::class, 'show']);
-// Route::post('/update-order/{id}', [OrderController::class, 'update']);
+Route::post('/create-order', [OrderController::class, 'createOrder']);
+Route::get('/index-order', [OrderController::class, 'index']);
+Route::get('/show-order/{id}', [OrderController::class, 'show']);
+Route::post('/update-order/{id}', [OrderController::class, 'update']);
 
-// Route::post('/create-servicedetails', [MdServiceDetailController::class, 'createServiceDetails']);
-// Route::post('/update-servicedetails/{id}', [MdServiceDetailController::class, 'updateServiceDetails']);
-// Route::get('/index-servicedetail', [MdServiceDetailController::class, 'index']);
-// Route::get('/show-servicedetail/{id}', [MdServiceDetailController::class, 'show']);
+Route::post('/create-servicedetails', [MdServiceDetailController::class, 'createServiceDetails']);
+Route::post('/update-servicedetails/{id}', [MdServiceDetailController::class, 'updateServiceDetails']);
+Route::get('/index-servicedetail', [MdServiceDetailController::class, 'index']);
+Route::get('/show-servicedetail/{id}', [MdServiceDetailController::class, 'show']);
 
 Route::post('/create-appointment', [AppointmentController::class, 'createAppointment']);
 
@@ -102,28 +102,28 @@ Route::get('/auth/facebook', [SocialController::class, 'redirectToFacebook'])->n
 Route::get('/auth/facebook/callback', [SocialController::class, 'handleFacebookCallback']);
 
 // Vendor routes
-Route::middleware('vendor')->group(function () {
-    Route::post('/create-service', [ServiceController::class, 'createService']);
+// Route::middleware('vendor')->group(function () {
+//     Route::post('/create-service', [ServiceController::class, 'createService']);
 
-    Route::get('/index-service', [ServiceController::class, 'index']);
-    Route::get('/show-service/{id}', [ServiceController::class, 'show']);
-    Route::put('/update-service/{id}', [ServiceController::class, 'update']);
+//     Route::get('/index-service', [ServiceController::class, 'index']);
+//     Route::get('/show-service/{id}', [ServiceController::class, 'show']);
+//     Route::put('/update-service/{id}', [ServiceController::class, 'update']);
 
-    Route::post('/create-servicedetails', [MdServiceDetailController::class, 'createServiceDetails']);
-    Route::post('/update-servicedetails/{id}', [MdServiceDetailController::class, 'updateServiceDetails']);
-    Route::get('/index-servicedetail', [MdServiceDetailController::class, 'index']);
-    Route::get('/show-servicedetail/{id}', [MdServiceDetailController::class, 'show']);
+//     Route::post('/create-servicedetails', [MdServiceDetailController::class, 'createServiceDetails']);
+//     Route::post('/update-servicedetails/{id}', [MdServiceDetailController::class, 'updateServiceDetails']);
+//     Route::get('/index-servicedetail', [MdServiceDetailController::class, 'index']);
+//     Route::get('/show-servicedetail/{id}', [MdServiceDetailController::class, 'show']);
 
-    Route::get('/index-company', [CompanyController::class, 'index']);
-    Route::post('/create-company', [CompanyController::class, 'createCompany']);
-    Route::get('/show-company/{id}', [CompanyController::class, 'show']);
-    Route::put('/update-company/{id}', [CompanyController::class, 'update']);
+//     Route::get('/index-company', [CompanyController::class, 'index']);
+//     Route::post('/create-company', [CompanyController::class, 'createCompany']);
+//     Route::get('/show-company/{id}', [CompanyController::class, 'show']);
+//     Route::put('/update-company/{id}', [CompanyController::class, 'update']);
 
-    Route::get('/index-branch', [BranchController::class, 'index']);
-    Route::post('/create-branch', [BranchController::class, 'createBranch']);
-    Route::get('/show-branch/{id}', [BranchController::class, 'show']);
-    Route::put('/update-branch/{id}', [BranchController::class, 'update']);
-});
+//     Route::get('/index-branch', [BranchController::class, 'index']);
+//     Route::post('/create-branch', [BranchController::class, 'createBranch']);
+//     Route::get('/show-branch/{id}', [BranchController::class, 'show']);
+//     Route::put('/update-branch/{id}', [BranchController::class, 'update']);
+// });
 // Customer routes
 // Route::middleware('customer')->group(function () {
 
