@@ -68,8 +68,8 @@ class ServiceController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => ['required'],
-            'price' => ['required'],
-            'service_name' => ['required'],
+            'details.*.price' => ['required'],
+            'details.*.service_name' => ['required'],
             // Add validation rules for other fields as needed
         ]);
 
@@ -88,25 +88,30 @@ class ServiceController extends Controller
 
         $mdService->save();
 
-        $serviceDetail = new MdServiceDetail([
-            'md_service_id' => $mdService->id,
-            'service_name' => $request->input('service_name'),
-            'price' => $request->input('price'),
-            'description' => $request->input('service_description'),
-        ]);
+        $serviceDetailsData = [];
+        foreach ($request->input('details') as $detail) {
+            $serviceDetail = new MdServiceDetail([
+                'md_service_id' => $mdService->id,
+                'service_name' => $detail['service_name'],
+                'price'=>$detail['price'],
+                'description' => $detail['description'] ,
+            ]);
 
-        if ($request->hasFile('icon')) {
-            $icon = $request->file('icon');
-            $destinationPath = public_path('icon/service_icon/');
-            $iconName = date('YmdHis') . '.' . $icon->getClientOriginalExtension();
-            $icon->move($destinationPath, $iconName);
-            $serviceDetail->icon = $iconName;
+            if ($request->hasFile('icon')) {
+                $icon = $request->file('icon');
+                $destinationPath = public_path('icon/service_icon/');
+                $iconName = date('YmdHis') . '.' . $icon->getClientOriginalExtension();
+                $icon->move($destinationPath, $iconName);
+                $serviceDetail->icon = $iconName;
+            }
+
+            $serviceDetail->save();
+            $serviceDetailsData[] = $serviceDetail;
         }
 
-        $serviceDetail->save();
-
-        return response()->json(['success' => 'Service and details created successfully!', 'data' => ['service' => $mdService, 'details' => $serviceDetail]]);
+        return response()->json(['success' => 'Service and details created successfully!', 'data' => ['service' => $mdService, 'details' => $serviceDetailsData]]);
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -179,8 +184,8 @@ class ServiceController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => ['required'],
-            'price' => ['required'],
-            'service_name' => ['required'],
+            'details.*.price' => ['required'],
+            'details.*.service_name' => ['required'],
             // Add validation rules for other fields as needed
         ]);
 
@@ -201,27 +206,30 @@ class ServiceController extends Controller
         $mdService->save();
 
         // Update associated service details
-        $serviceDetail = MdServiceDetail::where('md_service_id', $mdService->id)->first();
-        if (!$serviceDetail) {
-            return response()->json(['error' => 'Service details not found!'], 404);
+        foreach ($request->input('details') as $detail) {
+            if (isset($detail['id'])) {
+                $serviceDetail = MdServiceDetail::find($detail['id']);
+            } else {
+                $serviceDetail = new MdServiceDetail();
+                $serviceDetail->md_service_id = $mdService->id;
+            }
+
+            $serviceDetail->service_name = $detail['service_name'];
+            $serviceDetail->price=$detail['price'];
+            $serviceDetail->description = $detail['description'] ?? null;
+
+            if ($request->hasFile('icon')) {
+                $icon = $request->file('icon');
+                $destinationPath = public_path('icon/service_icon/');
+                $iconName = date('YmdHis') . '.' . $icon->getClientOriginalExtension();
+                $icon->move($destinationPath, $iconName);
+                $serviceDetail->icon = $iconName;
+            }
+
+            $serviceDetail->save();
         }
 
-        $serviceDetail->service_name = $request->input('service_name');
-        $serviceDetail->description = $request->input('description');
-        $mdService->price = $request->input('price');
-
-
-        if ($request->hasFile('icon')) {
-            $icon = $request->file('icon');
-            $destinationPath = public_path('icon/service_icon/');
-            $iconName = date('YmdHis') . '.' . $icon->getClientOriginalExtension();
-            $icon->move($destinationPath, $iconName);
-            $serviceDetail->icon = $iconName;
-        }
-
-        $serviceDetail->save();
-
-        return response()->json(['success' => 'Service and details updated successfully!', 'data' => ['service' => $mdService, 'details' => $serviceDetail]]);
+        return response()->json(['success' => 'Service and details updated successfully!', 'data' => $mdService->load('details')]);
     }
 
     /**
