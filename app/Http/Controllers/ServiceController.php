@@ -19,17 +19,7 @@ class ServiceController extends Controller
     public function index()
     {
         $services = MdService::all();
-        $mergedData = [];
-
-        foreach ($services as $service) {
-            $details = MdServiceDetail::where('md_service_id', $service->id)->get();
-            $mergedData[] = [
-                'service' => $service,
-                'details' => $details
-            ];
-        }
-        return response()->json($mergedData);
-
+        return response()->json($services);
     }
 
     /**
