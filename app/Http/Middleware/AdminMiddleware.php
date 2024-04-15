@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 
-class CustomerPermissionMiddleware
+
+class AdminMiddleware
 {
     /**
      * Handle an incoming request.
@@ -18,14 +19,9 @@ class CustomerPermissionMiddleware
 
     {
     
-        // if (Auth::check()) {
-            $user = Auth::user();
-
-            
-        // }
-        dd($user);
-
-        if ($user->type === 'customer') {
+        $user = Auth::user();
+ 
+        if ($user->type === 'admin') {
     
             return $next($request);
     

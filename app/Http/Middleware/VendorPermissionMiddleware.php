@@ -18,15 +18,17 @@ class VendorPermissionMiddleware
 
     {
         
-        if (Auth::check()) {
+        // if (Auth::check()) {
             $user = Auth::user();
-
+            // dd($user);
            
-        if ($user !== null && $user->type === "vendor"){
+        if ($user && $user->type === "vendor"){
                 return $next($request);
-            }
-        
+        }else{
+            return response()->json(['error' => 'Permission not allowed'], 403);
+
         }
-        return response()->json(['error' => 'Permission not allowed'], 403);
+        
+        // }
     }
 }

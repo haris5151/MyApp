@@ -11,6 +11,7 @@ class MdServiceDetail extends Model
     protected $fillable = [
         'md_service_id',
         'icon',
+        'price',
         'service_name',
         'description',
         'created_by',

@@ -17,6 +17,7 @@ return new class extends Migration
 
             $table->text('icon');
             $table->string('service_name');
+            $table->double('price');
             $table->text('description')->nullable();
 
 
