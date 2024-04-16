@@ -9,14 +9,15 @@ class CdCompany extends Model
 {
     use HasFactory;
     protected $fillable = [
-    'name',
-    'address',
-    'country',
-    'city',
-    'is_active',
-    'description',
-    'created_by',
-    'updated_by',
+        'user_id',
+        'name',
+        'address',
+        'country',
+        'city',
+        'is_active',
+        'description',
+        'created_by',
+        'updated_by',
     ];
     public function cd_branches()
     {
@@ -49,5 +50,9 @@ class CdCompany extends Model
     public function md_services()
     {
         return $this->hasMany(MdService::class, 'cd_company_id');
+    }
+    public function users()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

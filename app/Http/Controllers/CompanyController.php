@@ -64,6 +64,8 @@ class CompanyController extends Controller
             'is_active' => $request->input('is_active'),
             'country'=>$request->input('country'),
             'city'=>$request->input('city'),
+            'user_id' => $request->input('user_id'),
+
             
         
         ]);
@@ -114,6 +116,8 @@ class CompanyController extends Controller
         $CdCompany->is_active = $request->input('is_active');
         $CdCompany->country=$request->input('country');
         $CdCompany->city=$request->input('city');
+        $CdCompany->user_id=$request->input('user_id');
+
 
 
         $CdCompany->save();

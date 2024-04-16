@@ -13,7 +13,7 @@ class MdService extends Model
         'cd_branch_id',
         'name',
         'description',
-        'price',
+        // 'price',
         'is_active',
         'created_by',
         'updated_by',

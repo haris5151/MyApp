@@ -87,10 +87,10 @@ class ServiceController extends Controller
                 'description' => $detail['description'] ,
             ]);
 
-            if ($request->hasFile('icon')) {
-                $icon = $request->file('icon');
+            if (isset($detail['icon']) && $detail['icon']->isValid()) {
+                $icon = $detail['icon'];
                 $destinationPath = public_path('icon/service_icon/');
-                $iconName = date('YmdHis') . '.' . $icon->getClientOriginalExtension();
+                $iconName = date('YmdHis') . '_' . $icon->getClientOriginalName(); // Use original name
                 $icon->move($destinationPath, $iconName);
                 $serviceDetail->icon = $iconName;
             }

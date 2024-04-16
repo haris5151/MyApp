@@ -89,5 +89,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(CdSocialMedia::class);
     }
+    public function cd_company()
+    {
+        return $this->hasMany(CdCompany::class, 'user_id');
+    }
 
 }
