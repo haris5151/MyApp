@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('country');
             $table->string('city');
+            $table->string('image')->nullable();
             $table->string('address')->nullable();
             $table->boolean('is_active')->default(1);
             $table->text('description')->nullable();

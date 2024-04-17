@@ -53,6 +53,14 @@ class BranchController extends Controller
 
         ]);
 
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $destinationPath = public_path('image/branch_img/');
+            $imageName = date('YmdHis') . '.' . $image->getClientOriginalExtension();
+            $image->move($destinationPath, $imageName);
+            $CdBranch->image = $imageName;
+        }
+
         $CdBranch->save();
 
         return response()->json(['success'=>'Branch Create Successfully!','data'=>$CdBranch]);
