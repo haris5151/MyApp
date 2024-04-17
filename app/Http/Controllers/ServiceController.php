@@ -25,61 +25,56 @@ class ServiceController extends Controller
     }
 
     public function createService(Request $request)
-    {
-        // Validate request
-        $validator = Validator::make($request->all(), [
-            'name' => ['required'],
-            'details.*.price' => ['required'],
-            'details.*.service_name' => ['required'],
-            'details.*.icon' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'], // Allow icon to be nullable
-        ]);
-    
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 400);
-        }
-    
-        // Create MdService
-        $mdService = new MdService([
-            'name' => $request->input('name'),
-            'description' => $request->input('description'),
-            'is_active' => $request->input('is_active'),
-            'cd_company_id' => $request->input('cd_company_id'),
-            'cd_branch_id' => $request->input('cd_branch_id'),
-        ]);
-    
-        $mdService->save();
-    
-        // Create MdServiceDetails
-        $serviceDetailsData = [];
-        foreach ($request->input('details') as $detail)
-         {
-            $serviceDetail = new MdServiceDetail([
-                'md_service_id' => $mdService->id,
-                'service_name' => $detail['service_name'],
-                'price' => $detail['price'],
-                'description' => $detail['description'] ?? null,
-            ]);
-    
-            // Handle icon files if included
-            if (isset($detail['icon']) && is_array($detail['icon'])) 
-            {
-                foreach ($detail['icon'] as $icon) {
-                    if ($icon->isValid()) {
-                        $name = date('Y_m_d-H_i_s') . '_' . $this->format_name($icon->getClientOriginalName());
-                        $path = 'icon/service_icon/';
-                        $iconPath = $icon->storeAs($path, $name, 'public');
-                        // Store icon path in an array or another suitable format in your database
-                        $serviceDetail->icons()->create(['path' => $iconPath]);
-                    }
-                }
-            }
-    
-            $serviceDetail->save();
-            $serviceDetailsData[] = $serviceDetail;
-        }
-    
-        return response()->json(['success' => 'Service and details created successfully!', 'data' => ['service' => $mdService, 'details' => $serviceDetailsData]]);
+{
+    // Validate request
+    $validator = Validator::make($request->all(), [
+        'name' => ['required'],
+        'details.*.price' => ['required'],
+        'details.*.service_name' => ['required'],
+        // Add validation rules for other fields as needed
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json(['errors' => $validator->errors()], 400);
     }
+
+    // Create MdService
+    $mdService = new MdService([
+        'name' => $request->input('name'),
+        'description' => $request->input('description'),
+        'is_active' => $request->input('is_active'),
+        'cd_company_id' => $request->input('cd_company_id'),
+        'cd_branch_id' => $request->input('cd_branch_id'),
+    ]);
+
+    $mdService->save();
+
+    // Create MdServiceDetails
+    $serviceDetailsData = [];
+    foreach ($request->input('details') as $detail) {
+        $serviceDetail = new MdServiceDetail([
+            'md_service_id' => $mdService->id,
+            'service_name' => $detail['service_name'],
+            'price' => $detail['price'],
+            'description' => $detail['description'] ?? null,
+        ]);
+
+        if (isset($detail['icon'])) {
+            $icon = $detail['icon'];
+            if ($icon->isValid()) {
+                $name = date('Y_m_d-H_i_s') . '_' . $this->format_name($icon->getClientOriginalName());
+                $path = 'icon/service_icon/';
+                $iconPath = $icon->storeAs($path, $name, 'public');
+                $serviceDetail->icon = $iconPath;
+            }
+        }
+
+        $serviceDetail->save();
+        $serviceDetailsData[] = $serviceDetail;
+    }
+
+    return response()->json(['success' => 'Service and details created successfully!', 'data' => ['service' => $mdService, 'details' => $serviceDetailsData]]);
+}
 
 // private function handle_files($details, Request $request)
 // {

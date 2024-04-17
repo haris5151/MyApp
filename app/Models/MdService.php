@@ -30,4 +30,8 @@ class MdService extends Model
     {
         return $this->belongsTo(CdBranch::class, 'cd_branch_id');
     }
+    public function details()
+    {
+        return $this->hasMany(MdServiceDetail::class);
+    }
 }
