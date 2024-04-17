@@ -6,6 +6,8 @@ use App\Models\MdService;
 use App\Models\MdServiceDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\UploadedFile;
 
 class ServiceController extends Controller
 {
@@ -22,10 +24,84 @@ class ServiceController extends Controller
         return response()->json($services);
     }
 
+    public function createService(Request $request)
+    {
+        // Validate request
+        $validator = Validator::make($request->all(), [
+            'name' => ['required'],
+            'details.*.price' => ['required'],
+            'details.*.service_name' => ['required'],
+            'details.*.icon' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'], // Allow icon to be nullable
+        ]);
+    
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 400);
+        }
+    
+        // Create MdService
+        $mdService = new MdService([
+            'name' => $request->input('name'),
+            'description' => $request->input('description'),
+            'is_active' => $request->input('is_active'),
+            'cd_company_id' => $request->input('cd_company_id'),
+            'cd_branch_id' => $request->input('cd_branch_id'),
+        ]);
+    
+        $mdService->save();
+    
+        // Create MdServiceDetails
+        $serviceDetailsData = [];
+        foreach ($request->input('details') as $detail)
+         {
+            $serviceDetail = new MdServiceDetail([
+                'md_service_id' => $mdService->id,
+                'service_name' => $detail['service_name'],
+                'price' => $detail['price'],
+                'description' => $detail['description'] ?? null,
+            ]);
+    
+            // Handle icon files if included
+            if (isset($detail['icon']) && is_array($detail['icon'])) 
+            {
+                foreach ($detail['icon'] as $icon) {
+                    if ($icon->isValid()) {
+                        $name = date('Y_m_d-H_i_s') . '_' . $this->format_name($icon->getClientOriginalName());
+                        $path = 'icon/service_icon/';
+                        $iconPath = $icon->storeAs($path, $name, 'public');
+                        // Store icon path in an array or another suitable format in your database
+                        $serviceDetail->icons()->create(['path' => $iconPath]);
+                    }
+                }
+            }
+    
+            $serviceDetail->save();
+            $serviceDetailsData[] = $serviceDetail;
+        }
+    
+        return response()->json(['success' => 'Service and details created successfully!', 'data' => ['service' => $mdService, 'details' => $serviceDetailsData]]);
+    }
+
+// private function handle_files($details, Request $request)
+// {
+//     foreach ($details as &$detail) {
+//         if (isset($detail['icon']) && $detail['icon'] instanceof UploadedFile) {
+//             $icon = $detail['icon'];
+//             $name = date('Y_m_d-H_i_s') . '_' . $this->format_name($icon->getClientOriginalName());
+//             $path = 'icon/service_icon/';
+//             $iconPath = $icon->storeAs($path, $name, 'public'); // Store the icon using UploadedFile method
+//             $detail['icon'] = $iconPath; // Store the icon path in the detail array
+//         }
+//     }
+//     // Return the modified details array
+//     return $details;
+// }
+
+    
+
     /**
      * Show the form for creating a new resource.
      */
-    public function createService(Request $request)
+    // public function createService(Request $request)
     // {
     //     $validator=Validator::make($request->all(),[
 
@@ -55,52 +131,54 @@ class ServiceController extends Controller
 
 
     // }
-    {
-        $validator = Validator::make($request->all(), [
-            'name' => ['required'],
-            'details.*.price' => ['required'],
-            'details.*.service_name' => ['required'],
-            // Add validation rules for other fields as needed
-        ]);
+    // {
+    //     $validator = Validator::make($request->all(), [
+    //         'name' => ['required'],
+    //         'details.*.price' => ['required'],
+    //         'details.*.service_name' => ['required'],
+    //         // Add validation rules for other fields as needed
+    //     ]);
 
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 400);
-        }
+    //     if ($validator->fails()) {
+    //         return response()->json(['errors' => $validator->errors()], 400);
+    //     }
+    //     $this->handle_files($request->input('details'));
 
-        $mdService = new MdService([
-            'name' => $request->input('name'),
-            // 'price' => $request->input('price'),
-            'description' => $request->input('description'),
-            'is_active' => $request->input('is_active'),
-            'cd_company_id' => $request->input('cd_company_id'),
-            'cd_branch_id' => $request->input('cd_branch_id'),
-        ]);
+    //     $mdService = new MdService([
+    //         'name' => $request->input('name'),
+    //         // 'price' => $request->input('price'),
+    //         'description' => $request->input('description'),
+    //         'is_active' => $request->input('is_active'),
+    //         'cd_company_id' => $request->input('cd_company_id'),
+    //         'cd_branch_id' => $request->input('cd_branch_id'),
+    //     ]);
 
-        $mdService->save();
+    //     $mdService->save();
 
-        $serviceDetailsData = [];
-        foreach ($request->input('details') as $detail) {
-            $serviceDetail = new MdServiceDetail([
-                'md_service_id' => $mdService->id,
-                'service_name' => $detail['service_name'],
-                'price'=>$detail['price'],
-                'description' => $detail['description'] ,
-            ]);
+    //     $serviceDetailsData = [];
+    //     foreach ($request->input('details') as $detail) {
+    //         $serviceDetail = new MdServiceDetail([
+    //             'md_service_id' => $mdService->id,
+    //             'service_name' => $detail['service_name'],
+    //             'price'=>$detail['price'],
+    //             'description' => $detail['description'] ,
+    //             'icon' => $detail['icon'] ?? null,
+    //         ]);
 
-            if (isset($detail['icon']) && $detail['icon']->isValid()) {
-                $icon = $detail['icon'];
-                $destinationPath = public_path('icon/service_icon/');
-                $iconName = date('YmdHis') . '_' . $icon->getClientOriginalName(); // Use original name
-                $icon->move($destinationPath, $iconName);
-                $serviceDetail->icon = $iconName;
-            }
+    //         // if (isset($detail['icon']) && $detail['icon'] instanceof UploadedFile) {
+    //         //     $icon = $detail['icon'];
+    //         //     $destinationPath = public_path('icon/service_icon/');
+    //         //     $iconName = date('YmdHis') . '.' . $icon->getClientOriginalExtension();
+    //         //     $icon->move($destinationPath, $iconName);
+    //         //     $serviceDetail->icon = $iconName;
+    //         // }
 
-            $serviceDetail->save();
-            $serviceDetailsData[] = $serviceDetail;
-        }
+    //         $serviceDetail->save();
+    //         $serviceDetailsData[] = $serviceDetail;
+    //     }
 
-        return response()->json(['success' => 'Service and details created successfully!', 'data' => ['service' => $mdService, 'details' => $serviceDetailsData]]);
-    }
+    //     return response()->json(['success' => 'Service and details created successfully!', 'data' => ['service' => $mdService, 'details' => $serviceDetailsData]]);
+    // }
 
 
     /**

@@ -47,6 +47,9 @@ class BranchController extends Controller
             'country' => $request->input('country'),
             'city' => $request->input('city'),
             'cd_company_id' => $request->input('cd_company_id'),
+            'created_by'=>$request->input('created_by'),
+            'updated_by'=>$request->input('updated_by'),
+
 
         ]);
 
