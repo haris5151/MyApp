@@ -38,21 +38,19 @@ class ServiceController extends Controller
             return response()->json(['errors' => $validator->errors()], 400);
         }
     
-        foreach ($request->input('details') as $index => $detail) {
+        foreach ($request->input('details') as $detail) {
+            // Handle icon upload for each detail
             if (isset($detail['icon']) && $detail['icon'] instanceof UploadedFile) {
                 $icon = $detail['icon'];
-                $name = date('Y_m_d-H_i_s') . '_' . $this->format_name($icon->getClientOriginalName());
-                $path = 'icon/service_icon/';
+                $iconName = date('YmdHis') . '_' . $this->format_name($icon->getClientOriginalName());
+                $iconPath = 'icon/service_icon/';
                 try {
-                    $iconPath = $icon->storeAs($path, $name, 'public');
-                    $request->merge([
-                        'details.' . $index . '.icon' => $iconPath,
-                    ]);
+                    $icon->storeAs($iconPath, $iconName, 'public');
+                    $detail['icon'] = $iconPath . $iconName; // Update icon path in the detail array
                 } catch (\Exception $e) {
-                    return response()->json(['error' => 'Failed to upload icon.'], 500);
+                    return response()->json(['error' => 'Failed to upload icon for detail.'], 500);
                 }
             }
-        }
     
         // Create MdService
         $mdService = MdService::create([
@@ -61,6 +59,9 @@ class ServiceController extends Controller
             'is_active' => $request->input('is_active'),
             'cd_company_id' => $request->input('cd_company_id'),
             'cd_branch_id' => $request->input('cd_branch_id'),
+            'created_by'=>$request->input('created_by'),
+            'updated_by'=>$request->input('updated_by'),
+
         ]);
         if ($request->hasFile('image')) {
             $image = $request->file('image');
@@ -79,6 +80,8 @@ class ServiceController extends Controller
                 'md_service_id' => $mdService->id,
                 'service_name' => $detail['service_name'],
                 'price' => $detail['price'],
+                'created_by' => $detail['created_by'],
+                'updated_by' => $detail['updated_by'],
                 'description' => $detail['description'] ?? null,
                 'icon' => $detail['icon']?? null , 
             ]);
@@ -89,6 +92,8 @@ class ServiceController extends Controller
     
         return response()->json(['success' => 'Service and details created successfully!', 'data' => ['service' => $mdService, 'details' => $serviceDetailsData]]);
     }
+}
+
     
 
 // private function handle_files($details, Request $request)
@@ -188,6 +193,7 @@ class ServiceController extends Controller
     //     }
 
     //     return response()->json(['success' => 'Service and details created successfully!', 'data' => ['service' => $mdService, 'details' => $serviceDetailsData]]);
+    // }
     // }
 
 
