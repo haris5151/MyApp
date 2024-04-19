@@ -15,8 +15,8 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-        $appointment = CdAppointment::all();
-        return response()->json($appointment);
+        $appointments = CdAppointment::with('service')->get();
+        return response()->json($appointments);
     }
 
     /**

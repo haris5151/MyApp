@@ -30,6 +30,6 @@ class CdAppointment extends Model
     }
     public function service()
     {
-        return $this->belongsTo(MdServiceDetail::class, 'service_id');
+        return $this->belongsTo(MdServiceDetail::class, 'id');
     }
 }
