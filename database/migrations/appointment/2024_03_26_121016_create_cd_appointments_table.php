@@ -16,6 +16,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained('users');
             $table->foreignId('receiver_id')->nullable()->constrained('users');
+            $table->foreignId('service_detail_id')->nullable()->constrained('md_service_details');
+
 
             $table->enum('status',['approved','pending','cancel']);
             $table->text('description');

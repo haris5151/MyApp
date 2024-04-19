@@ -87,6 +87,8 @@ Route::get('/show-servicedetail/{id}', [MdServiceDetailController::class, 'show'
 Route::post('/create-appointment',[AppointmentController::class, 'createAppointment']);
 Route::post('/update-appointment/{id}',[AppointmentController::class, 'update']);
 Route::get('/index-appointment',[AppointmentController::class, 'index']);
+Route::get('/get-service-details/{id}',[AppointmentController::class, 'getservicedetails']);
+
 
 
 

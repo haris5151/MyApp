@@ -23,4 +23,8 @@ class MdServiceDetail extends Model
     {
         return $this->belongsTo(MdService::class);
     }
+    public function appointments()
+    {
+        return $this->hasMany(CdAppointment::class, 'service_detail_id');
+    }
 }

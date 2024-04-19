@@ -12,6 +12,7 @@ class CdAppointment extends Model
     protected $fillable = [
         'user_id',
         'receiver_id',
+        'service_detail_id',
         'status',
         'description',
         'appointment_date',
@@ -26,5 +27,9 @@ class CdAppointment extends Model
     public function serviceDetail()
     {
         return $this->belongsTo(MdServiceDetail::class,  'created_by');
+    }
+    public function service()
+    {
+        return $this->belongsTo(MdServiceDetail::class, 'service_id');
     }
 }
