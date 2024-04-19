@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\CdAppointment;
+use App\Models\MdServiceDetail;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
+
+use function Pest\Laravel\get;
 
 class AppointmentController extends Controller
 {
@@ -14,7 +17,8 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-        //
+        $appointment=CdAppointment::all();
+        return response()->json($appointment);
     }
 
     /**
@@ -22,38 +26,36 @@ class AppointmentController extends Controller
      */
     public function createAppointment(Request $request)
     {
-        $validator = validator::make($request->all(), [
-            'service_id' => ['required', 'exists:users,id'],
-            'customer_id' => ['required', 'exists:users,id'],
-
+        $validator = Validator::make($request->all(), [
+            'user_id' => ['required'],
+            'id' => ['required', 'exists:md_service_details'], // Ensure the 'id' parameter exists in the request
+            // 'description' => ['required'],
+            'status' => ['required'],
+            'appointment_date' => ['required', 'date'],
+            'appointment_time' => ['required'],
         ]);
+
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 400);
         }
 
-        $user = Auth::user();
-        if ($user->hasRole('customer')) {
-            $customerId = $user->id;
-            $serviceId = $request->input('service_id');
-        } elseif ($user->hasRole('service_provider')) {
-            $customerId = $request->input('customer_id');
-            $serviceId = $user->id;
-        } else {
-            return response()->json(['error' => 'User does not have a valid role'], 403);
-        }
-        $appointment = new CdAppointment();
-        $appointment->customer_id = $customerId;
-        $appointment->service_id = $serviceId;
-        $appointment->description=$request->input('description');
-        $appointment->status=$request->input('status');
+        // Fetch service details to get the receiver_id (created_by)
+        $serviceDetails = MdServiceDetail::findOrFail($request->id);
 
+        // Extract the receiver_id (created_by) from the service details
+        $receiver_id = $serviceDetails->created_by;
+
+        $appointment = new CdAppointment();
+        $appointment->user_id = $request->input('user_id');
+        $appointment->receiver_id = $receiver_id;
+        $appointment->description = $request->input('description');
+        $appointment->status = $request->input('status');
         $appointment->appointment_date = $request->input('appointment_date');
-        $appointment->appointment_time =$request->input('appointment_time');
+        $appointment->appointment_time = $request->input('appointment_time');
 
         $appointment->save();
 
         return response()->json(['message' => 'Appointment created successfully'], 201);
-    
     }
 
     /**
@@ -83,49 +85,39 @@ class AppointmentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        $appointment = CdAppointment::findOrFail($id);
+        // Retrieve the appointment
+        $appointment = CdAppointment::find($id);
     
-        $validator = validator::make($request->all(), [
-            'service_id' => ['required', 'exists:uers,id'],
-            'customer_id' => ['required', 'exists:uers,id'],
-
+        // Check if the appointment exists
+        if (!$appointment) {
+            return response()->json(['error' => 'Appointment not found'], 404);
+        }
+    
+        // Check if the authenticated user is the receiver of the appointment
+        // $user = Auth::user();
+        // if ($user->id !== $appointment->receiver_id) {
+        //     return response()->json(['error' => 'Unauthorized'], 403);
+        // }
+    
+        // Validate the request
+        $validator = Validator::make($request->all(), [
+            'status' => ['required', 'in:pending,cancel,approved'], // Ensure status field is provided and contains a valid value
         ]);
+    
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 400);
         }
     
-        // Determine the role of the user
-        $user = Auth::user();
-        if ($user->hasRole('customer')) {
-            // Ensure the customer can only update their own appointments
-            if ($appointment->customer_id !== $user->id) {
-                return response()->json(['error' => 'You are not authorized to update this appointment'], 403);
-            }
-            $customerId = $user->id;
-            $serviceId = $request->input('service_id'); // You can retrieve service_id from the request or any other source
-        } elseif ($user->hasRole('service_provider')) {
-            // Ensure the service provider can only update appointments they are providing
-            if ($appointment->service_id !== $user->id) {
-                return response()->json(['error' => 'You are not authorized to update this appointment'], 403);
-            }
-            $customerId = $request->input('customer_id'); // You can retrieve customer_id from the request or any other source
-            $serviceId = $user->id;
-        } else {
-            return response()->json(['error' => 'User does not have a valid role'], 403);
-        }
-    
-
-        $appointment->customer_id = $customerId;
-        $appointment->service_id = $serviceId;
-        $appointment->appointment_date = $request->input('appointment_date');
-        $appointment->appointment_time = $request->input('appointment_time');
-        
+        // Update the appointment status
+        $appointment->status = $request->input('status');
         $appointment->save();
     
+        // Return success response
         return response()->json(['message' => 'Appointment updated successfully'], 200);
     }
+    
 
     /**
      * Remove the specified resource from storage.

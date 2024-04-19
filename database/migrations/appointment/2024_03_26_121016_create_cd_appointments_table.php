@@ -14,10 +14,10 @@ return new class extends Migration
     {
         Schema::create('cd_appointments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('service_id')->nullable()->constrained('users');
-            $table->foreignId('customer_id')->nullable()->constrained('users');
+            $table->foreignId('user_id')->nullable()->constrained('users');
+            $table->foreignId('receiver_id')->nullable()->constrained('users');
 
-            $table->enum('status',['approved','rejected']);
+            $table->enum('status',['approved','pending','cancel']);
             $table->text('description');
             $table->date('appointment_date');
             $table->time('appointment_time');

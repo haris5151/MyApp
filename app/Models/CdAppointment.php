@@ -10,21 +10,21 @@ class CdAppointment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'customer_id',
-        'service_id',
+        'user_id',
+        'receiver_id',
         'status',
         'description',
         'appointment_date',
         'appointment_time',
     ];
 
-    public function service()
+    public function user()
     {
-        return $this->belongsTo(User::class, 'service_id');
+        return $this->belongsTo(User::class);
     }
 
-    public function customer()
+    public function serviceDetail()
     {
-        return $this->belongsTo(User::class, 'customer_id');
+        return $this->belongsTo(MdServiceDetail::class,  'created_by');
     }
 }

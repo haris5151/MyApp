@@ -20,7 +20,7 @@ class ServiceController extends Controller
     // }
     public function index()
     {
-        $services = MdService::all();
+        $services = MdService::with('cd_companies', 'cd_branches')->get();
         return response()->json($services);
     }
 

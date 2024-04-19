@@ -84,7 +84,14 @@ Route::post('/update-servicedetails/{id}', [MdServiceDetailController::class, 'u
 Route::get('/index-servicedetail', [MdServiceDetailController::class, 'index']);
 Route::get('/show-servicedetail/{id}', [MdServiceDetailController::class, 'show']);
 
-Route::post('/create-appointment', [AppointmentController::class, 'createAppointment']);
+Route::post('/create-appointment',[AppointmentController::class, 'createAppointment']);
+Route::post('/update-appointment/{id}',[AppointmentController::class, 'update']);
+Route::get('/index-appointment',[AppointmentController::class, 'index']);
+
+
+
+
+
 
 // login with google
 Route::get('/google/redctire', [SocialController::class, 'redirectToGoogle'])->name('google.redirect');

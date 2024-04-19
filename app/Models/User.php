@@ -83,7 +83,7 @@ class User extends Authenticatable
 
     public function appointments()
     {
-        return $this->hasMany(CdAppointment::class, 'customer_id');
+        return $this->hasMany(CdAppointment::class, 'user_id');
     }
     public function socialmedia()
     {
