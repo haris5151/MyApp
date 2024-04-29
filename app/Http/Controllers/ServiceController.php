@@ -38,19 +38,19 @@ class ServiceController extends Controller
             return response()->json(['errors' => $validator->errors()], 400);
         }
     
-        foreach ($request->input('details') as $detail) {
-            // Handle icon upload for each detail
-            if (isset($detail['icon']) && $detail['icon'] instanceof UploadedFile) {
-                $icon = $detail['icon'];
-                $iconName = date('YmdHis') . '_' . $this->format_name($icon->getClientOriginalName());
-                $iconPath = 'icon/service_icon/';
-                try {
-                    $icon->storeAs($iconPath, $iconName, 'public');
-                    $detail['icon'] = $iconPath . $iconName; // Update icon path in the detail array
-                } catch (\Exception $e) {
-                    return response()->json(['error' => 'Failed to upload icon for detail.'], 500);
-                }
-            }
+        // foreach ($request->input('details') as $detail) {
+        //     // Handle icon upload for each detail
+        //     if (isset($detail['icon']) && $detail['icon'] instanceof UploadedFile) {
+        //         $icon = $detail['icon'];
+        //         $iconName = date('YmdHis') . '_' . $this->format_name($icon->getClientOriginalName());
+        //         $iconPath = 'icon/service_icon/';
+        //         try {
+        //             $icon->storeAs($iconPath, $iconName, 'public');
+        //             $detail['icon'] = $iconPath . $iconName; // Update icon path in the detail array
+        //         } catch (\Exception $e) {
+        //             return response()->json(['error' => 'Failed to upload icon for detail.'], 500);
+        //         }
+        //     }
     
         // Create MdService
         $mdService = MdService::create([
@@ -83,7 +83,7 @@ class ServiceController extends Controller
                 'created_by' => $detail['created_by'],
                 'updated_by' => $detail['updated_by'],
                 'description' => $detail['description'] ?? null,
-                'icon' => $detail['icon']?? null , 
+                // 'icon' => $detail['icon']?? null , 
             ]);
     
             $serviceDetail->save();
@@ -92,7 +92,7 @@ class ServiceController extends Controller
     
         return response()->json(['success' => 'Service and details created successfully!', 'data' => ['service' => $mdService, 'details' => $serviceDetailsData]]);
     }
-}
+
 
     
 

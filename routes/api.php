@@ -5,12 +5,16 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DropdownController;
+use App\Http\Controllers\LocationController;
 use App\Http\Controllers\MdServiceDetailController;
+use App\Http\Controllers\NotificationSendController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SocialController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -89,6 +93,14 @@ Route::post('/update-appointment/{id}',[AppointmentController::class, 'update'])
 Route::get('/index-appointment',[AppointmentController::class, 'index']);
 Route::get('/get-service-details/{id}',[AppointmentController::class, 'getservicedetails']);
 
+// send notification
+// Route::post('/send-notification',[NotificationSendController::class, 'sendNotification']);
+// Route::post('/store-token', [NotificationSendController::class, 'updateDeviceToken']);
+Route::post('/send-notification/{receiverId}', [NotificationController::class, 'sendNotification']);
+Route::get('/notifications/{userId}', [NotificationController::class, 'getNotifications']);
+Route::put('/notifications/mark-read/{userId}', [NotificationController::class, 'markNotificationsAsRead']);
+
+
 
 
 
@@ -157,3 +169,14 @@ Route::get('/auth/facebook/callback', [SocialController::class, 'handleFacebookC
 //     return $request->user()->currentAccessToken()->delete();
 
 // })->middleware('auth:Sanctum');
+
+// nearby location
+Route::post('/locations/search',[LocationController::class,'search']);
+// dashbooardapis
+Route::get('/companies/last-seven-days',[DashboardController::class, 'companiesCreatedLastSevenDays']);
+Route::get('/branches/last-seven-days',[DashboardController::class, 'BranchesCreatedLastSevenDays']);
+Route::get('/services/last-seven-days',[DashboardController::class, 'ServicesCreatedLastSevenDays']);
+Route::get('/gender',[DashboardController::class, 'countUsersByGender']);
+Route::get('/total-count',[DashboardController::class, 'totalCounts']);
+Route::get('/order-status',[DashboardController::class, 'orderCountsByStatus']);
+Route::get('/order-total',[DashboardController::class, 'OrderCreatedLastSevenDays']);

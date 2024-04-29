@@ -31,12 +31,15 @@
                     </div>
                 </header>
             @endif
+            {{-- <div class="alert">
+                {{ $slot }}
+            </div>
 
             <!-- Page Content -->
             <main>
                 {{ $slot }}
             </main>
-        </div>
+        </div> --}}
 
         @stack('modals')
 

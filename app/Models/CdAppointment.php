@@ -17,6 +17,8 @@ class CdAppointment extends Model
         'description',
         'appointment_date',
         'appointment_time',
+        'created_by',
+        'updated_by',
     ];
 
     public function user()

@@ -24,6 +24,8 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->boolean('is_active')->default(1);
             $table->text('description')->nullable();
+            $table->double('latitude', 10, 6);
+            $table->double('longitude', 10, 6);
 
             $table->foreignId('created_by')->constrained('users');
             $table->foreignId('updated_by')->constrained('users');

@@ -13,6 +13,8 @@ class CdBranch extends Model
     'cd_company_id',
     'country',
     'city',
+    'latitude',
+    'longitude',
     'address',
     'is_active',
     'description',

@@ -38,6 +38,7 @@ class User extends Authenticatable
         'email_verified_at',
         'created_by',
         'updated_by',
+        'device_token',
     ];
 
     /**
