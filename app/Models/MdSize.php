@@ -10,6 +10,9 @@ class MdSize extends Model
     use HasFactory;
     protected $fillable = [
         'chest_width',
+        'size_name',
+        'collar',
+        'pent_length',
         'waist_width',
         'sleeve_length',
         'shoulder_width',

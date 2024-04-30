@@ -16,6 +16,7 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SocialController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\SizeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -187,3 +188,9 @@ Route::get('/order-total',[DashboardController::class, 'OrderCreatedLastSevenDay
 
 Route::post('/send-message', [MessageController::class,'sendMessage']);
 Route::get('/get-message', [MessageController::class ,'getMessages']);
+
+// sizes
+Route::post('/create-size', [SizeController::class, 'create']);
+Route::get('/index-size', [SizeController::class, 'index']);
+Route::get('/show-size/{id}', [SizeController::class, 'show']);
+Route::post('/update-size/{id}', [SizeController::class, 'update']);

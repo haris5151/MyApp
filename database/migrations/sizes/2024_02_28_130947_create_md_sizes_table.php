@@ -23,7 +23,7 @@ return new class extends Migration
             $table->float('collar')->nullable();
             $table->float('pent_length')->nullable();
 
-            $table->string('gender')->nullable();
+            $table->enum('gender', ['male', 'female', 'other'])->nullable();
             $table->boolean('is_active')->default(1);
             $table->text('description')->nullable();
             
