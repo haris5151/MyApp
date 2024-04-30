@@ -23,6 +23,8 @@ return new class extends Migration
             $table->string('user_name');
             $table->string('country');
             $table->string('city');
+            $table->double('latitude', 10, 6);
+            $table->double('longitude', 10, 6);
             $table->string('image');
             $table->string('phone_number')->unique()->nullable();
             $table->string('facebook_id')->nullable()->unique();

@@ -13,14 +13,16 @@ return new class extends Migration
     {
         Schema::create('md_sizes', function (Blueprint $table) {
             $table->id();
-
-            $table->foreignId('user_id')->nullable()->constrained('users');
             
             $table->string('size_name');
             $table->float('chest_width')->nullable();
             $table->float('waist_width')->nullable();
             $table->float('sleeve_length')->nullable();
             $table->float('shoulder_width')->nullable();
+            $table->float('shirt_length')->nullable();
+            $table->float('collar')->nullable();
+            $table->float('pent_length')->nullable();
+
             $table->string('gender')->nullable();
             $table->boolean('is_active')->default(1);
             $table->text('description')->nullable();

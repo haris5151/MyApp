@@ -43,6 +43,8 @@ class RegisterController extends Controller
             'gender' => $request->gender,
             'country' => $request->country,
             'city' => $request->city,
+            'latitude'=>$request->latitude,
+            'longitude'=>$request->longitude,
             'address' => $request->address,
             'type' => $request->type,
             'description' => $request->description,

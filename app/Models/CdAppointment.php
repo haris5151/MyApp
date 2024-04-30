@@ -34,4 +34,14 @@ class CdAppointment extends Model
     {
         return $this->belongsTo(MdServiceDetail::class, 'id');
     }
+
+    public function receiver()
+    {
+        return $this->belongsTo(User::class, 'receiver_id');
+    }
+
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
+    }
 }

@@ -43,7 +43,37 @@ public function getNotifications($userId)
         // Mark notifications as read
         $user->unreadNotifications()->update(['read_at' => now()]);
         
-        return response()->json(['notifications' => $notifications], 200);
+        // Prepare array to hold formatted notifications data
+        $formattedNotifications = [];
+        
+        foreach ($notifications as $notification) {
+            $data = $notification->data; // Get the raw data of the notification
+
+            // Extract specific fields from the notification data
+            $formattedNotification = [
+                'id' => $notification->id,
+                'type' => $notification->type,
+                'message' => $data['message'],
+                'created_at' => $notification->created_at,
+                'read_at' => $notification->read_at,
+                'appointment_id' => $data['appointment_id'], 
+                // "service_detail_name"=>$data['service_detail_name'],
+                // 'created_by'=>$data['created_by']// Extract appointment_id
+                // Add other fields as needed
+            ];
+            if (isset($data['service_detail_name'])) {
+                $formattedNotification['service_detail_name'] = $data['service_detail_name'];
+            }
+
+            // Check and add created_by if present in data
+            if (isset($data['created_by'])) {
+                $formattedNotification['created_by'] = $data['created_by'];
+            }
+            // Push formatted notification into array
+            $formattedNotifications[] = $formattedNotification;
+        }
+        
+        return response()->json(['notifications' => $formattedNotifications], 200);
     } catch (\Exception $e) {
         return response()->json(['error' => 'Failed to fetch notifications', 'message' => $e->getMessage()], 500);
     }

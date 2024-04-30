@@ -24,6 +24,8 @@ class User extends Authenticatable
         'image',
         'country',
         'city',
+        'latitude',
+        'longitude',
         'phone_number',
         'type',
         'is_active',

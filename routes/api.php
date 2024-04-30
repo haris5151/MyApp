@@ -10,6 +10,7 @@ use App\Http\Controllers\MdServiceDetailController;
 use App\Http\Controllers\NotificationSendController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\SocialController;
@@ -172,6 +173,7 @@ Route::get('/auth/facebook/callback', [SocialController::class, 'handleFacebookC
 
 // nearby location
 Route::post('/locations/search',[LocationController::class,'search']);
+Route::get('/nearby-branches/{userId}', [LocationController::class, 'getNearbyBranches']);
 // dashbooardapis
 Route::get('/companies/last-seven-days',[DashboardController::class, 'companiesCreatedLastSevenDays']);
 Route::get('/branches/last-seven-days',[DashboardController::class, 'BranchesCreatedLastSevenDays']);
@@ -180,3 +182,8 @@ Route::get('/gender',[DashboardController::class, 'countUsersByGender']);
 Route::get('/total-count',[DashboardController::class, 'totalCounts']);
 Route::get('/order-status',[DashboardController::class, 'orderCountsByStatus']);
 Route::get('/order-total',[DashboardController::class, 'OrderCreatedLastSevenDays']);
+
+// message
+
+Route::post('/send-message', [MessageController::class,'sendMessage']);
+Route::get('/get-message', [MessageController::class ,'getMessages']);

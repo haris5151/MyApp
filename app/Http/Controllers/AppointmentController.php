@@ -112,9 +112,24 @@ class AppointmentController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        try {
+            // Find the appointment by ID
+            $appointment = CdAppointment::with('service', 'user')->find($id);
+    
+            // Check if the appointment exists
+            if (!$appointment) {
+                return response()->json(['error' => 'Appointment not found'], 404);
+            }
+    
+            // Return the appointment details
+            return response()->json(['appointment' => $appointment], 200);
+    
+        } catch (\Exception $e) {
+            // Handle any exceptions that might occur
+            return response()->json(['error' => 'Failed to fetch appointment', 'message' => $e->getMessage()], 500);
+        }
     }
 
     /**
