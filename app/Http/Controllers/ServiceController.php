@@ -83,8 +83,16 @@ class ServiceController extends Controller
                 'created_by' => $detail['created_by'],
                 'updated_by' => $detail['updated_by'],
                 'description' => $detail['description'] ?? null,
-                // 'icon' => $detail['icon']?? null , 
             ]);
+    
+            // Handle icon upload for each detail
+            if ($request->hasFile('details.*.icon')) {
+                $icon = $detail['icon'];
+                $destinationPath = public_path('icon/service_icon/');
+                $iconName = date('YmdHis') . '.' . $icon->getClientOriginalExtension();
+                $icon->move($destinationPath, $iconName);
+                $serviceDetail->icon = $iconName;
+            }
     
             $serviceDetail->save();
             $serviceDetailsData[] = $serviceDetail;
@@ -92,7 +100,6 @@ class ServiceController extends Controller
     
         return response()->json(['success' => 'Service and details created successfully!', 'data' => ['service' => $mdService, 'details' => $serviceDetailsData]]);
     }
-
 
     
 

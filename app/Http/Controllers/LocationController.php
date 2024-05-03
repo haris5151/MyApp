@@ -46,7 +46,7 @@ class LocationController extends Controller
          *  cos(radians(cd_branches.longitude) - radians(" . $userLongitude . "))
          + sin(radians(" . $userLatitude . "))
          * sin(radians(cd_branches.latitude))) AS distance"))
-        ->having('distance', '<', 10) // 2km radius
+        ->having('distance', '<', 10) // 10km radius
 
         ->orderBy('distance')
 
